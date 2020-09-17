@@ -7,7 +7,7 @@ const router = express.Router();
 // @desc     Process a list of websites
 router.post(
   '/',
-  [check('list', 'Websites list is required').not().isEmpty()],
+  [check('websites', 'Websites list is required').not().isEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
