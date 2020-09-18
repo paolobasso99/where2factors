@@ -4,9 +4,9 @@ const { MONGO_URL } = process.env;
 
 const options = {
   useNewUrlParser: true,
-  reconnectTries: Number.MAX_VALUE,
-  reconnectInterval: 500,
   connectTimeoutMS: 10000,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
 };
 
 module.exports = async () => {

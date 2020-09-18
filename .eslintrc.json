@@ -4,7 +4,14 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "google", "prettier"],
+  "extends": [
+    "plugin:mocha/recommended",
+    "eslint:recommended",
+    "google",
+    "prettier",
+    "import",
+    "node"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -12,7 +19,7 @@
   "parserOptions": {
     "ecmaVersion": 11
   },
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "mocha", "import", "node", "security"],
   "rules": {
     "prettier/prettier": ["error"]
   }

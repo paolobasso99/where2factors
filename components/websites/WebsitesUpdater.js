@@ -3,42 +3,71 @@ const YAML = require('yaml');
 const psl = require('psl');
 
 const WebsitesDB = require('./WebsitesDB');
+const connectDB = require('../../config/connectDB');
+const disconnectDB = require('../../config/disconnectDB');
 
 /**
- * @class WebsitesUpdater class.
+ * The website object returned by GitHub.
+ * @typedef {object} website
+ * @property {string} name The name of the website.
+ * @property {string} url The url of the website.
+ * @property {string} [twitter] The twitter id of the website if it doesn't support tfa.
+ * @property {string} [facebook] The facebook id of the website if it doesn't support tfa.
+ * @property {string} [email_address] The email address of the website if it doesn't support tfa.
+ * @property {string} img The logo of the website
+ * @property {string} [doc] The link to the documentation on how to enable tfa in the website.
+ * @property {Array<string>} [tfa] The available tfa methods.
+ * @property {string} [exception] A note about this website.
+ * @property {string} [status] The link to the tfa status of the website if it doesn't support tfa.
+ */
+
+/**
+ * WebsitesUpdater class, used to start the websites database update process.
  */
 class WebsitesUpdater {
   /**
-   * Start updating the database
+   * Start updating the websites.
+   * @static
+   * @async
    */
   static async update() {
-    const websitesDB = new WebsitesDB();
-
     // Get websites
-    const websites = await WebsitesUpdater.getWebsites();
+    try {
+      const websites = await WebsitesUpdater.getWebsites();
 
-    // Update websites in DB
-    const promises = [];
-    for (const website of websites) {
-      if (website && website.url) {
-        const websiteObj = website;
-        websiteObj.host = WebsitesUpdater.extractHostname(websiteObj.url);
-        websiteObj.domain = psl.parse(websiteObj.host).domain;
+      // Update websites in DB
+      await connectDB();
 
-        try {
-          const promise = websitesDB.addOrUpdate(websiteObj);
-          promises.push(promise);
-        } catch (error) {
-          console.error(error);
+      const promises = [];
+      for (const website of websites) {
+        if (website && website.url) {
+          const websiteObj = website;
+          websiteObj.host = WebsitesUpdater.extractHostname(websiteObj.url);
+          websiteObj.domain = psl.parse(websiteObj.host).domain;
+
+          try {
+            const promise = WebsitesDB.addOrUpdate(websiteObj);
+            promises.push(promise);
+          } catch (error) {
+            console.error(error);
+          }
         }
       }
-    }
 
-    // Close DB when done updating
-    await Promise.all(promises);
-    websitesDB.close();
+      // Close DB when done updating
+      await Promise.all(promises);
+      await disconnectDB();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
+  /**
+   * Extract the hostname from a full url.
+   * @static
+   * @param {string} url The url.
+   * @return {string} The hostname.
+   */
   static extractHostname(url) {
     let hostname;
     // find & remove protocol (http, ftp, etc.) and get hostname
@@ -57,32 +86,53 @@ class WebsitesUpdater {
   }
 
   /**
-   * Get the websites objects
+   * Get the websites objects from GitHub.
+   * @static
+   * @async
+   * @return {Array<website>} The array of websites objects.
+   * @throws {Error} Throw new Error if unable to get the websites.
    */
   static async getWebsites() {
-    const categoriesYmlsUrls = await WebsitesUpdater.getCategoriesYmlsUrls();
+    try {
+      const categoriesYmlUrls = await WebsitesUpdater.getCategoriesYmlUrls();
 
-    if (categoriesYmlsUrls) {
-      const promises = [];
+      if (categoriesYmlUrls) {
+        const promises = [];
 
-      for (const ymlUrl of categoriesYmlsUrls) {
-        const newWebsitesPromise = WebsitesUpdater.getWebsitesFromYmlUrl(
-          ymlUrl
-        );
-        promises.push(newWebsitesPromise);
+        for (const ymlUrl of categoriesYmlUrls) {
+          const newWebsitesPromise = WebsitesUpdater.getWebsitesFromYmlUrl(
+            ymlUrl
+          );
+          promises.push(newWebsitesPromise);
+        }
+
+        try {
+          const websites = await Promise.all(promises);
+
+          // Merge categories
+          return websites.reduce((accumulator, current) => {
+            return accumulator.concat(current);
+          }, []);
+        } catch (error) {
+          console.error(error);
+        }
       }
-
-      const websites = await Promise.all(promises);
-
-      // Merge categories
-      return websites.reduce((accumulator, current) => {
-        return accumulator.concat(current);
-      }, []);
+    } catch (error) {
+      console.log(error);
     }
 
-    throw 'Unable to get websites from GitHub.';
+    throw new Error('Unable to get websites');
   }
 
+  /**
+   * Parse yml file to get the websites objects.
+   * Example url: https://raw.githubusercontent.com/2factorauth/twofactorauth/master/_data/backup.yml.
+   * @static
+   * @async
+   * @param {string} ymlUrl The yml file url.
+   * @return {Array<website>} The array of website objects.
+   * @throws {Error} Throw new Error if unable to get the websites.
+   */
   static async getWebsitesFromYmlUrl(ymlUrl) {
     try {
       const response = await axios.get(ymlUrl, {
@@ -99,10 +149,20 @@ class WebsitesUpdater {
       console.error(error);
     }
 
-    return false;
+    throw new Error(
+      'Unable to get websites from the yml at the url: ' + ymlUrl
+    );
   }
 
-  static async getCategoriesYmlsUrls() {
+  /**
+   * Get the yml files urls from GitHub.
+   * See https://api.github.com/repos/2factorauth/twofactorauth/contents/_data.
+   * @static
+   * @async
+   * @throws {Error} Throw new Error if unable to get the categories urls.
+   * @return {Array<string>} The array of urls pointing the yml files.
+   */
+  static async getCategoriesYmlUrls() {
     try {
       const response = await axios.get(
         'https://api.github.com/repos/2factorauth/twofactorauth/contents/_data',
@@ -123,7 +183,7 @@ class WebsitesUpdater {
       console.error(error);
     }
 
-    return false;
+    throw new Error('Unable to get categories yml urls from GitHub.');
   }
 }
 

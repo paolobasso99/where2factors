@@ -1,19 +1,34 @@
 const Website = require('./websiteModel');
-const connectDB = require('../../config/connectDB');
 
 /**
- * @class WebsiteDB class.
+ * The website object returned by GitHub.
+ * @typedef {object} websiteObj
+ * @property {string} name The name of the website.
+ * @property {string} url The url of the website.
+ * @property {string} host The host of the website.
+ * @property {string} domain The domain of the website.
+ * @property {string} [twitter] The twitter id of the website if it doesn't support tfa.
+ * @property {string} [facebook] The facebook id of the website if it doesn't support tfa.
+ * @property {string} [email_address] The email address of the website if it doesn't support tfa.
+ * @property {string} img The logo of the website
+ * @property {string} [doc] The link to the documentation on how to enable tfa in the website.
+ * @property {Array<string>} [tfa] The available tfa methods.
+ * @property {string} [exception] A note about this website.
+ * @property {string} [status] The link to the tfa status of the website if it doesn't support tfa.
+ */
+
+/**
+ * Website database wrapper class.
  */
 class WebsiteDB {
-  constructor() {
-    this.db = connectDB();
-  }
-
   /**
-   * Add or update
-   * @param {*} websiteObj
+   * Add or update a website to the connected mongoose database.
+   * @static
+   * @async
+   * @return {void}
+   * @param {websiteObj} websiteObj The website object.
    */
-  async addOrUpdate(websiteObj) {
+  static async addOrUpdate(websiteObj) {
     const newWebsite = {
       name: websiteObj.name,
       host: websiteObj.host,
@@ -34,17 +49,64 @@ class WebsiteDB {
         await Website.replaceOne({ host: newWebsite.host }, newWebsite, {
           upsert: true,
         });
-        console.log('Updated ' + newWebsite.host);
       } catch (error) {
         console.error(error);
       }
     } else {
-      throw 'No host specified!';
+      throw Error('No host specified for: ' + websiteObj.url);
     }
   }
 
-  close() {
-    this.db.disconnect();
+  /**
+   * Find a website by host.
+   * @param {string} host The hostname.
+   * @return {(websiteObj|boolean)} The websiteObj or false if no website is found.
+   */
+  static async findByHost(host) {
+    try {
+      const website = await Website.findOne({ host });
+      if (website) {
+        return website;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    return false;
+  }
+
+  /**
+   * Delete all websites in the connected database.
+   * @static
+   * @async
+   * @return {object} Data about the operation.
+   * @throws {Error} Throws new Error if unable to delete the documents.
+   */
+  static async deleteAll() {
+    try {
+      return await Website.deleteMany({});
+    } catch (error) {
+      console.log(error);
+    }
+
+    throw Error('Unable to delete all documents in the database');
+  }
+
+  /**
+   * Count all websites in the connected database.
+   * @static
+   * @async
+   * @return {number} The number of websites.
+   * @throws {Error} Throws new Error if unable to count the documents.
+   */
+  static async countAll() {
+    try {
+      return await Website.countDocuments({});
+    } catch (error) {
+      console.log(error);
+    }
+
+    throw Error('Unable to count all documents in the database');
   }
 }
 

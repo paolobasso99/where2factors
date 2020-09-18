@@ -1,5 +1,7 @@
+# Env
 .env
-.history/
+.env.*
+!.env.example
 
 # Logs
 logs
