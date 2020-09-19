@@ -1,6 +1,6 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-
+const logger = require('../../config/logger');
 const router = express.Router();
 const WebsitesService = require('./WebsitesService');
 const WebsitesDB = require('./WebsitesDB');
@@ -48,7 +48,7 @@ router.post(
         notFound,
       });
     } catch (err) {
-      console.error(err.message);
+      logger.error(err.message);
       return res.status(500).send('Server Error');
     }
   }

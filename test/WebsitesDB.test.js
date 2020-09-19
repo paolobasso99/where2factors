@@ -1,12 +1,12 @@
 process.env.NODE_ENV = 'test';
 const { resolve } = require('path');
-require('dotenv').config({ path: resolve(__dirname, '../../.env.test') });
+require('dotenv').config({ path: resolve(__dirname, '../.env.test') });
 
 const { assert } = require('chai');
-const WebsitesDB = require('../../components/websites/WebsitesDB');
+const WebsitesDB = require('../components/websites/WebsitesDB');
 
-const connectDB = require('../../db/connectDB');
-const disconnectDB = require('../../db/disconnectDB');
+const connectDB = require('../db/connectDB');
+const disconnectDB = require('../db/disconnectDB');
 
 const website = {
   name: 'Example',
@@ -22,9 +22,18 @@ const website = {
   status: 'example',
 };
 
-describe('WebsitesDB', function() {
-  describe('addOrUpdate', function() {
-    it('should add a new website to the database', async function() {
+describe('WebsitesDB', function () {
+  before(async function () {
+    await connectDB();
+    await WebsitesDB.deleteAll();
+  });
+
+  after(async function () {
+    await disconnectDB();
+  });
+
+  describe('addOrUpdate', function () {
+    it('should add a new website to the database', async function () {
       // Update
       await WebsitesDB.addOrUpdate(website);
 
@@ -42,12 +51,13 @@ describe('WebsitesDB', function() {
       assert.equal(added.email_address, website.email_address);
       assert.equal(added.img, website.img);
       assert.equal(added.doc, website.doc);
-      assert.equal(added.tfa, website.tfa);
+      assert.isArray(added.tfa);
+      assert.lengthOf(added.tfa, 2);
       assert.equal(added.exception, website.exception);
       assert.equal(added.status, website.status);
     });
 
-    it('should update the website', async function() {
+    it('should update the website', async function () {
       // Update
       website.name = 'changed';
       await WebsitesDB.addOrUpdate(website);
@@ -66,7 +76,8 @@ describe('WebsitesDB', function() {
       assert.equal(added.email_address, website.email_address);
       assert.equal(added.img, website.img);
       assert.equal(added.doc, website.doc);
-      assert.equal(added.tfa, website.tfa);
+      assert.isArray(added.tfa);
+      assert.lengthOf(added.tfa, 2);
       assert.equal(added.exception, website.exception);
       assert.equal(added.status, website.status);
     });

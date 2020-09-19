@@ -1,4 +1,5 @@
 const Website = require('./WebsiteModel');
+const logger = require('../../config/logger');
 
 /**
  * The website object returned by GitHub.
@@ -49,8 +50,9 @@ class WebsiteDB {
         await Website.replaceOne({ host: newWebsite.host }, newWebsite, {
           upsert: true,
         });
+        logger.debug('Added ' + newWebsite.host);
       } catch (error) {
-        console.error(error);
+        logger.error(error);
       }
     } else {
       throw Error('No host specified for: ' + websiteObj.url);
@@ -66,12 +68,14 @@ class WebsiteDB {
     try {
       const website = await Website.findOne({ host });
       if (website) {
+        logger.debug(`Found website with the host ${host} in the database`);
         return website;
       }
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
 
+    logger.debug(`Found website with the host ${host} in the database`);
     return false;
   }
 
@@ -84,12 +88,14 @@ class WebsiteDB {
     try {
       const website = await Website.findOne({ domain });
       if (website) {
+        logger.debug(`Found website with the domain ${domain} in the database`);
         return website;
       }
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
 
+    logger.debug(`No website with the domain ${domain} in the database`);
     return false;
   }
 
@@ -102,9 +108,11 @@ class WebsiteDB {
    */
   static async deleteAll() {
     try {
-      return await Website.deleteMany({});
+      const result = await Website.deleteMany({});
+      logger.debug('Successfuly delete all websites from the database');
+      return result;
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
 
     throw Error('Unable to delete all documents in the database');
@@ -119,9 +127,13 @@ class WebsiteDB {
    */
   static async countAll() {
     try {
-      return await Website.countDocuments({});
+      const result = await Website.countDocuments({});
+      logger.debug(
+        'Successfuly counted all websites in the database: ' + result
+      );
+      return result;
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
 
     throw Error('Unable to count all documents in the database');

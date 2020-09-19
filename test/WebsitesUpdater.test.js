@@ -1,10 +1,12 @@
 process.env.NODE_ENV = 'test';
 const { resolve } = require('path');
-require('dotenv').config({ path: resolve(__dirname, '../../.env.test') });
+require('dotenv').config({ path: resolve(__dirname, '../.env.test') });
 
 const { assert } = require('chai');
-const WebsitesUpdater = require('../../components/websites/WebsitesUpdater');
-const WebsitesDB = require('../../components/websites/WebsitesDB');
+const connectDB = require('../db/connectDB');
+const disconnectDB = require('../db/disconnectDB');
+const WebsitesUpdater = require('../components/websites/WebsitesUpdater');
+const WebsitesDB = require('../components/websites/WebsitesDB');
 
 describe('WebsitesUpdater', function() {
   describe('getCategories', function() {
@@ -33,14 +35,27 @@ describe('WebsitesUpdater', function() {
   });
 
   describe('update', function() {
+    this.timeout(60000); 
+
+    beforeEach(async function () {
+      await connectDB();
+      await WebsitesDB.deleteAll();
+      await disconnectDB();
+    });
+  
+    after(async function () {
+      await disconnectDB();
+    });
+
     it('should add websites to the database', async function() {
       // Update
       await WebsitesUpdater.update();
 
       // Check database
+      await connectDB();
       const count = await WebsitesDB.countAll();
       assert.isNumber(count);
-      assert.isAtLeast(1);
+      assert.isAtLeast(count, 1);
     });
   });
 });

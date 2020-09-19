@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('../config/logger');
 
 const { MONGO_URL } = process.env;
 
@@ -11,8 +12,11 @@ const options = {
 
 module.exports = async () => {
   try {
-    return await mongoose.connect(MONGO_URL, options);
+    logger.debug('Connecting to the database');
+    const db = await mongoose.connect(MONGO_URL, options);
+    logger.info('Successfuly connected to the database');
+    return db;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 };

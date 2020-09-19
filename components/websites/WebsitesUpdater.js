@@ -1,6 +1,6 @@
 const axios = require('axios');
 const YAML = require('yaml');
-
+const logger = require('../../config/logger');
 const WebsitesDB = require('./WebsitesDB');
 const WebsitesService = require('./WebsitesService');
 const connectDB = require('../../db/connectDB');
@@ -33,12 +33,14 @@ class WebsitesUpdater {
   static async update() {
     // Get websites
     try {
+      logger.info('Starting websites updating');
       const websites = await WebsitesUpdater.getWebsites();
 
       // Update websites in DB
       await connectDB();
 
       const promises = [];
+      logger.info('Updating websites in the database');
       for (const website of websites) {
         if (website && website.url) {
           const websiteObj = website;
@@ -49,7 +51,7 @@ class WebsitesUpdater {
             const promise = WebsitesDB.addOrUpdate(websiteObj);
             promises.push(promise);
           } catch (error) {
-            console.error(error);
+            logger.error(error);
           }
         }
       }
@@ -57,8 +59,9 @@ class WebsitesUpdater {
       // Close DB when done updating
       await Promise.all(promises);
       await disconnectDB();
+      logger.info('Websites updating completed');
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
   }
 
@@ -71,12 +74,15 @@ class WebsitesUpdater {
    */
   static async getWebsites() {
     try {
+      logger.info('Getting categories yml files');
       const categoriesYmlUrls = await WebsitesUpdater.getCategoriesYmlUrls();
 
       if (categoriesYmlUrls) {
         const promises = [];
 
+        logger.info('Getting websites from yml files');
         for (const ymlUrl of categoriesYmlUrls) {
+          logger.debug('Getting websites from yml: ' + ymlUrl);
           const newWebsitesPromise = WebsitesUpdater.getWebsitesFromYmlUrl(
             ymlUrl
           );
@@ -91,11 +97,11 @@ class WebsitesUpdater {
             return accumulator.concat(current);
           }, []);
         } catch (error) {
-          console.error(error);
+          logger.error(error);
         }
       }
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
 
     throw new Error('Unable to get websites');
@@ -123,7 +129,7 @@ class WebsitesUpdater {
         return YAML.parse(response.data).websites;
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     }
 
     throw new Error(
@@ -157,7 +163,7 @@ class WebsitesUpdater {
         });
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     }
 
     throw new Error('Unable to get categories yml urls from GitHub.');
