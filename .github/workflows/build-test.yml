@@ -27,3 +27,5 @@ jobs:
       - name: Test
         run: npm test
         env:
+          - MONGO_URL=${{ secrets.MONGO_URL }}
+          - LOG_LEVEL=debug
