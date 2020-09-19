@@ -1,18 +1,21 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h3>
+      Where2Factors helps you to find which websites that you use have two
+      factors authentication!
+    </h3>
+    <WebsitesInput />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import WebsitesInput from '@/components/WebsitesInput.vue';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    WebsitesInput
   }
 };
 </script>
