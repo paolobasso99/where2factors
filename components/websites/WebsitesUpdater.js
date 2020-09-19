@@ -1,10 +1,10 @@
 const axios = require('axios');
 const YAML = require('yaml');
-const psl = require('psl');
 
 const WebsitesDB = require('./WebsitesDB');
-const connectDB = require('../../config/connectDB');
-const disconnectDB = require('../../config/disconnectDB');
+const WebsitesService = require('./WebsitesService');
+const connectDB = require('../../db/connectDB');
+const disconnectDB = require('../../db/disconnectDB');
 
 /**
  * The website object returned by GitHub.
@@ -42,8 +42,8 @@ class WebsitesUpdater {
       for (const website of websites) {
         if (website && website.url) {
           const websiteObj = website;
-          websiteObj.host = WebsitesUpdater.extractHostname(websiteObj.url);
-          websiteObj.domain = psl.parse(websiteObj.host).domain;
+          websiteObj.host = WebsitesService.getHost(websiteObj.url);
+          websiteObj.domain = WebsitesService.getDomain(websiteObj.host);
 
           try {
             const promise = WebsitesDB.addOrUpdate(websiteObj);
@@ -60,29 +60,6 @@ class WebsitesUpdater {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  /**
-   * Extract the hostname from a full url.
-   * @static
-   * @param {string} url The url.
-   * @return {string} The hostname.
-   */
-  static extractHostname(url) {
-    let hostname;
-    // find & remove protocol (http, ftp, etc.) and get hostname
-    if (url.indexOf('//') > -1) {
-      hostname = url.split('/')[2];
-    } else {
-      hostname = url.split('/')[0];
-    }
-
-    // find & remove port number
-    hostname = hostname.split(':')[0];
-    // find & remove "?"
-    hostname = hostname.split('?')[0];
-
-    return hostname;
   }
 
   /**

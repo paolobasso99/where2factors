@@ -1,4 +1,4 @@
-const Website = require('./websiteModel');
+const Website = require('./WebsiteModel');
 
 /**
  * The website object returned by GitHub.
@@ -65,6 +65,24 @@ class WebsiteDB {
   static async findByHost(host) {
     try {
       const website = await Website.findOne({ host });
+      if (website) {
+        return website;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    return false;
+  }
+
+  /**
+   * Find a website by domain.
+   * @param {string} domain The domain.
+   * @return {(websiteObj|boolean)} The websiteObj or false if no website is found.
+   */
+  static async findByDomain(domain) {
+    try {
+      const website = await Website.findOne({ domain });
       if (website) {
         return website;
       }
