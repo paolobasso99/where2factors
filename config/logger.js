@@ -8,14 +8,6 @@ if (process.env.NODE_ENV == 'test') {
   logPath = __dirname + '/../logs/test';
 }
 
-const transport = new winston.transports.DailyRotateFile({
-  filename: logPath + '/application-%DATE%.log',
-  datePattern: 'YYYY-MM-DD',
-  zippedArchive: true,
-  maxSize: '20m',
-  maxFiles: '5d',
-});
-
 // timezone function winston calls to get timezone(ASIA/KOLKATA)
 const timezoned = () =>
   new Date().toLocaleString('en-US', {
@@ -24,6 +16,13 @@ const timezoned = () =>
 
 // options for logger object
 const options = {
+  dailyRotateFile: {
+    filename: logPath + '/application-%DATE%.log',
+    datePattern: 'YYYY-MM-DD',
+    zippedArchive: true,
+    maxSize: '20m',
+    maxFiles: '5d',
+  },
   file: {
     level: process.env.LOG_LEVEL,
     filename: logPath + '/app.log',
@@ -41,7 +40,10 @@ const options = {
 };
 
 // logger object with above defined options
-const transports = [new winston.transports.File(options.file), transport];
+const transports = [
+  new winston.transports.File(options.file),
+  new winston.transports.DailyRotateFile(options.dailyRotateFile),
+];
 
 // Disable console in testing
 if (process.env.NODE_ENV !== 'test') {
