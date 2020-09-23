@@ -5,17 +5,17 @@
       Where2Factors helps you to find which websites that you use have two
       factors authentication!
     </h3>
-    <WebsitesInput />
+    <Websites />
   </div>
 </template>
 
 <script>
-import WebsitesInput from '@/components/WebsitesInput.vue';
+import Websites from '@/components/Websites.vue';
 
 export default {
   name: 'Home',
   components: {
-    WebsitesInput
+    Websites
   }
 };
 </script>
