@@ -49,6 +49,8 @@ describe('websitesAPI', function () {
 
       assert.lengthOf(res.body.found, 3);
       assert.lengthOf(res.body.notFound, 1);
+
+      assert.hasAllKeys(res.body.found[0], ['query', 'name', 'url', 'host', 'domain', 'img'])
     });
   });
 });

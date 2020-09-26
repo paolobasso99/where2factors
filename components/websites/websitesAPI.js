@@ -25,8 +25,8 @@ router.post(
       const found = [];
       const notFound = [];
 
-      for (const url of websites) {
-        const host = WebsitesService.getHost(url);
+      for (const query of websites) {
+        const host = WebsitesService.getHost(query);
         let website = await WebsitesDB.findByHost(host);
 
         if (!website) {
@@ -35,10 +35,10 @@ router.post(
         }
 
         if(website) {
-          website.url = url;
+          website.query = query;
           found.push(website);
         } else {
-          notFound.push(url);
+          notFound.push(query);
         }
       }
 
