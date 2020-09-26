@@ -22,29 +22,28 @@ router.post(
     try {
       const { websites } = req.body;
 
-      const foundByHost = [];
-      const foundByDomain = [];
+      const found = [];
       const notFound = [];
 
       for (const url of websites) {
         const host = WebsitesService.getHost(url);
         let website = await WebsitesDB.findByHost(host);
-        if (website) {
-          foundByHost.push(website);
-        } else {
+
+        if (!website) {
           const domain = WebsitesService.getDomain(host);
           website = await WebsitesDB.findByDomain(domain);
-          if (website) {
-            foundByDomain.push(website);
-          } else {
-            notFound.push(host);
-          }
+        }
+
+        if(website) {
+          website.url = url;
+          found.push(website);
+        } else {
+          notFound.push(url);
         }
       }
 
       return res.json({
-        foundByHost,
-        foundByDomain,
+        found,
         notFound,
       });
     } catch (err) {

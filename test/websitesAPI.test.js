@@ -42,14 +42,12 @@ describe('websitesAPI', function () {
       assert.isObject(res);
       assert.equal(res.status, 200);
 
-      assert.hasAllKeys(res.body, ['foundByHost', 'foundByDomain', 'notFound']);
+      assert.hasAllKeys(res.body, ['found', 'notFound']);
 
-      assert.isArray(res.body.foundByHost);
-      assert.isArray(res.body.foundByDomain);
+      assert.isArray(res.body.found);
       assert.isArray(res.body.notFound);
 
-      assert.lengthOf(res.body.foundByHost, 2);
-      assert.lengthOf(res.body.foundByDomain, 1);
+      assert.lengthOf(res.body.found, 3);
       assert.lengthOf(res.body.notFound, 1);
     });
   });
