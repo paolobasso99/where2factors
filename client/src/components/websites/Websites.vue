@@ -26,8 +26,16 @@ export default {
   },
   methods: {
     async onChecked(websites) {
+      // Empty
+      this.websites = {
+        withTFA: [],
+        withoutTFA: [],
+        notFound: [],
+      };
+
       this.websites.notFound = websites.notFound;
 
+      // Sort
       for (const website of websites.found) {
         if ('tfa' in website) {
           this.websites.withTFA.push(website);

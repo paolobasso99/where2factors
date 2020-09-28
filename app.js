@@ -27,8 +27,6 @@ app.use((err, req, res, next) => {
 });
 
 // Routes
-app.get('/', (req, res) => res.json({ message: 'Welcome to our Bookstore!' }));
-
 const websitesAPI = require('./components/websites/websitesAPI');
 app.use('/api/websites', websitesAPI);
 
