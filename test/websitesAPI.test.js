@@ -9,6 +9,7 @@ const chaiHttp = require('chai-http');
 const { assert } = chai;
 chai.use(chaiHttp);
 
+const WebsitesDB = require('../components/websites/WebsitesDB');
 const disconnectDB = require('../db/disconnectDB');
 const connectDB = require('../db/connectDB');
 
@@ -18,6 +19,24 @@ describe('websitesAPI', function () {
 
   before(async function () {
     await connectDB();
+    await WebsitesDB.deleteAll();
+
+    const website = {
+      name: 'Example',
+      url: 'https://www.example.com',
+      host: 'www.example.com',
+      domain: 'example.com',
+      twitter: 'example',
+      facebook: 'example',
+      email_address: 'example',
+      img: 'example.png',
+      doc: 'https://example.com/doc',
+      tfa: ['method1', 'method2'],
+      exception: 'example',
+      status: 'example',
+    };
+
+    await WebsitesDB.addOrUpdate(website);
   });
 
   after(async function () {
@@ -32,10 +51,8 @@ describe('websitesAPI', function () {
         .post('/api/websites')
         .send({
           websites: [
-            'https://www.udemy.com/user/edit-account/fd<script>lool</script>',
-            'https://zxvczx.adobe.com/',
-            'https://mail.google.com/',
-            'https://withouuuutt.ausfdygfyuoasgfsgf.com/',
+            'https://www.example.com/example?example=example',
+            'https://www.notfound.com/',
           ],
         });
 
@@ -47,10 +64,10 @@ describe('websitesAPI', function () {
       assert.isArray(res.body.found);
       assert.isArray(res.body.notFound);
 
-      assert.lengthOf(res.body.found, 3);
+      assert.lengthOf(res.body.found, 1);
       assert.lengthOf(res.body.notFound, 1);
 
-      assert.hasAllKeys(res.body.found[0], ['query', 'name', 'url', 'host', 'domain', 'img'])
+      assert.containsAllKeys(res.body.found[0], ['query', 'name', 'url', 'host', 'domain', 'img'])
     });
   });
 });

@@ -2,7 +2,7 @@ const Website = require('./WebsiteModel');
 const logger = require('../../config/logger');
 
 /**
- * The website object returned by GitHub.
+ * The website object to store in the database.
  * @typedef {object} websiteObj
  * @property {string} name The name of the website.
  * @property {string} url The url of the website.
@@ -32,6 +32,7 @@ class WebsiteDB {
   static async addOrUpdate(websiteObj) {
     const newWebsite = {
       name: websiteObj.name,
+      url: websiteObj.url,
       host: websiteObj.host,
       domain: websiteObj.domain,
       twitter: websiteObj.twitter,
@@ -69,13 +70,13 @@ class WebsiteDB {
       const website = await Website.findOne({ host });
       if (website) {
         logger.debug(`Found website with the host ${host} in the database`);
-        return website;
+        return website.toObject();
       }
     } catch (error) {
       logger.log(error);
     }
 
-    logger.debug(`Found website with the host ${host} in the database`);
+    logger.debug(`No website with the host ${host} in the database`);
     return false;
   }
 
@@ -89,7 +90,7 @@ class WebsiteDB {
       const website = await Website.findOne({ domain });
       if (website) {
         logger.debug(`Found website with the domain ${domain} in the database`);
-        return website;
+        return website.toObject();
       }
     } catch (error) {
       logger.log(error);

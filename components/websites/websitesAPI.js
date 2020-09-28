@@ -27,10 +27,14 @@ router.post(
 
       for (const query of websites) {
         const host = WebsitesService.getHost(query);
-        let website = await WebsitesDB.findByHost(host);
+        const domain = WebsitesService.getDomain(host);
 
-        if (!website) {
-          const domain = WebsitesService.getDomain(host);
+        let website = false;
+        if(host) {
+          website = await WebsitesDB.findByHost(host);
+        }
+
+        if (!website && domain) {
           website = await WebsitesDB.findByDomain(domain);
         }
 

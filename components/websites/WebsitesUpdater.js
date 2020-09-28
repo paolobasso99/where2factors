@@ -43,12 +43,11 @@ class WebsitesUpdater {
       logger.info('Updating websites in the database');
       for (const website of websites) {
         if (website && website.url) {
-          const websiteObj = website;
-          websiteObj.host = WebsitesService.getHost(websiteObj.url);
-          websiteObj.domain = WebsitesService.getDomain(websiteObj.host);
+          website.host = WebsitesService.getHost(website.url);
+          website.domain = WebsitesService.getDomain(website.host);
 
           try {
-            const promise = WebsitesDB.addOrUpdate(websiteObj);
+            const promise = WebsitesDB.addOrUpdate(website);
             promises.push(promise);
           } catch (error) {
             logger.error(error);
@@ -126,7 +125,22 @@ class WebsitesUpdater {
       });
 
       if (response.data) {
-        return YAML.parse(response.data).websites;
+        const websites = YAML.parse(response.data).websites;
+
+        // Fix image url
+        if (websites && websites.length > 0) {
+          const category = ymlUrl
+            .substring(ymlUrl.lastIndexOf('/') + 1)
+            .replace('.yml', '');
+          for (const website of websites) {
+            website.img =
+              'https://raw.githubusercontent.com/2factorauth/twofactorauth/master/img/' + category + '/' + website.img;
+          }
+
+          return websites;
+        }
+
+        return [];
       }
     } catch (error) {
       logger.error(error);

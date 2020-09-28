@@ -10,6 +10,7 @@ const disconnectDB = require('../db/disconnectDB');
 
 const website = {
   name: 'Example',
+  url: 'https://www.example.com',
   host: 'www.example.com',
   domain: 'example.com',
   twitter: 'example',
