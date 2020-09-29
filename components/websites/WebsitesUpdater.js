@@ -127,12 +127,13 @@ class WebsitesUpdater {
       if (response.data) {
         const websites = YAML.parse(response.data).websites;
 
-        // Fix image url
+        // Fix image url and category
         if (websites && websites.length > 0) {
           const category = ymlUrl
             .substring(ymlUrl.lastIndexOf('/') + 1)
             .replace('.yml', '');
           for (const website of websites) {
+            website.category = category;
             website.img =
               'https://raw.githubusercontent.com/2factorauth/twofactorauth/master/img/' + category + '/' + website.img;
           }

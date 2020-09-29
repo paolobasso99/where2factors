@@ -1,9 +1,15 @@
 <template>
-  <div>
+  <div class="websites">
     <WebsitesInput @checked="onChecked" />
     <WebsitesResult :websites="websites" />
   </div>
 </template>
+
+<style lang="scss">
+.websites {
+  text-align: center;
+}
+</style>
 
 <script>
 import WebsitesInput from '@/components/websites/WebsitesInput.vue';

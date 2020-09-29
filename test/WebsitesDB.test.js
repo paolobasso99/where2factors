@@ -12,6 +12,7 @@ const website = {
   name: 'Example',
   url: 'https://www.example.com',
   host: 'www.example.com',
+  category: 'example',
   domain: 'example.com',
   twitter: 'example',
   facebook: 'example',
@@ -45,17 +46,7 @@ describe('WebsitesDB', function () {
       assert.equal(count, 1);
 
       assert.isObject(added);
-      assert.equal(added.name, website.name);
-      assert.equal(added.domain, website.domain);
-      assert.equal(added.twitter, website.twitter);
-      assert.equal(added.facebook, website.facebook);
-      assert.equal(added.email_address, website.email_address);
-      assert.equal(added.img, website.img);
-      assert.equal(added.doc, website.doc);
-      assert.isArray(added.tfa);
-      assert.lengthOf(added.tfa, 2);
-      assert.equal(added.exception, website.exception);
-      assert.equal(added.status, website.status);
+      await assert.deepNestedInclude(added, website);
     });
 
     it('should update the website', async function () {
@@ -70,17 +61,7 @@ describe('WebsitesDB', function () {
       assert.equal(count, 1);
 
       assert.isObject(added);
-      assert.equal(added.name, website.name);
-      assert.equal(added.domain, website.domain);
-      assert.equal(added.twitter, website.twitter);
-      assert.equal(added.facebook, website.facebook);
-      assert.equal(added.email_address, website.email_address);
-      assert.equal(added.img, website.img);
-      assert.equal(added.doc, website.doc);
-      assert.isArray(added.tfa);
-      assert.lengthOf(added.tfa, 2);
-      assert.equal(added.exception, website.exception);
-      assert.equal(added.status, website.status);
+      await assert.deepNestedInclude(added, website);
     });
   });
 });

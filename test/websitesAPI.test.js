@@ -15,27 +15,27 @@ const connectDB = require('../db/connectDB');
 
 const server = require('../bin/www');
 
+const website = {
+  name: 'Example',
+  url: 'https://www.example.com',
+  host: 'www.example.com',
+  category: 'example',
+  domain: 'example.com',
+  twitter: 'example',
+  facebook: 'example',
+  email_address: 'example',
+  img: 'example.png',
+  doc: 'https://example.com/doc',
+  tfa: ['method1', 'method2'],
+  exception: 'example',
+  status: 'example',
+};
+
 describe('websitesAPI', function () {
 
   before(async function () {
     await connectDB();
     await WebsitesDB.deleteAll();
-
-    const website = {
-      name: 'Example',
-      url: 'https://www.example.com',
-      host: 'www.example.com',
-      domain: 'example.com',
-      twitter: 'example',
-      facebook: 'example',
-      email_address: 'example',
-      img: 'example.png',
-      doc: 'https://example.com/doc',
-      tfa: ['method1', 'method2'],
-      exception: 'example',
-      status: 'example',
-    };
-
     await WebsitesDB.addOrUpdate(website);
   });
 
@@ -67,7 +67,7 @@ describe('websitesAPI', function () {
       assert.lengthOf(res.body.found, 1);
       assert.lengthOf(res.body.notFound, 1);
 
-      assert.containsAllKeys(res.body.found[0], ['query', 'name', 'url', 'host', 'domain', 'img'])
+      await assert.deepNestedInclude(res.body.found[0], website)
     });
   });
 });

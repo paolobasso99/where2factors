@@ -6,6 +6,7 @@ const logger = require('../../config/logger');
  * @typedef {object} websiteObj
  * @property {string} name The name of the website.
  * @property {string} url The url of the website.
+ * @property {string} category The category of the website.
  * @property {string} host The host of the website.
  * @property {string} domain The domain of the website.
  * @property {string} [twitter] The twitter id of the website if it doesn't support tfa.
@@ -34,6 +35,7 @@ class WebsiteDB {
       name: websiteObj.name,
       url: websiteObj.url,
       host: websiteObj.host,
+      category: websiteObj.category,
       domain: websiteObj.domain,
       twitter: websiteObj.twitter,
       facebook: websiteObj.facebook,

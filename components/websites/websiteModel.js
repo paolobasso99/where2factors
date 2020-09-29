@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const websiteSchema = new Schema({
   name: String,
   url: String,
+  category: String,
   host: {
     type: String,
     unique: true,
