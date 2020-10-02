@@ -14,28 +14,32 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .websites {
   &__input {
     display: block;
+    margin-bottom: 64px;
+
     &__textarea {
       display: block;
       margin: auto;
       background-color: #eeeeee;
       border: 0px;
-      padding:10px;
-      width:700px;
+      padding: 10px;
+      width: 700px;
       height: 200px;
       max-width: 100%;
     }
+
     &__submit {
       padding: 10px 20px;
       border: 0px;
-      background-color: #33356C;
+      background-color: #33356c;
       color: #ffffff;
       display: block;
       margin: auto;
       margin-top: 30px;
+      cursor: pointer;
     }
   }
 }

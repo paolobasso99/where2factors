@@ -5,9 +5,10 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .websites {
   text-align: center;
+  font-size:1rem;
 }
 </style>
 
@@ -43,7 +44,7 @@ export default {
 
       // Sort
       for (const website of websites.found) {
-        if ('tfa' in website) {
+        if ('tfa' in website && website.tfa.length > 0) {
           this.websites.withTFA.push(website);
         } else {
           this.websites.withoutTFA.push(website);
