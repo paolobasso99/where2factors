@@ -30,12 +30,12 @@
 }
 .header__logo {
   max-width: 100%;
-  width: 330px;
+  width: 500px;
   margin-bottom: 10px;
 }
 .header__subtitle {
   color: #787878;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   margin: 0px;
 }
 </style>

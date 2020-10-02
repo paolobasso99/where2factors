@@ -1,6 +1,9 @@
 <template>
   <div class="websites__result">
-    <div class="websites__result__section" v-if="this.websites.withTFA.length > 0">
+    <div
+      class="websites__result__section"
+      v-if="this.websites.withTFA.length > 0"
+    >
       <h3 class="websites__result__title">
         <Icon
           class="websites__result__title__icon"
@@ -21,7 +24,10 @@
         </li>
       </ul>
     </div>
-    <div class="websites__result__section" v-if="this.websites.withoutTFA.length > 0">
+    <div
+      class="websites__result__section"
+      v-if="this.websites.withoutTFA.length > 0"
+    >
       <h3 class="websites__result__title">
         <Icon
           class="websites__result__title__icon"
@@ -43,8 +49,16 @@
       </ul>
     </div>
 
-    <div class="websites__result__section" v-if="this.websites.notFound.length > 0">
-      <h3 class="websites__result__title">Unmatched websites</h3>
+    <div
+      class="websites__result__section"
+      v-if="this.websites.notFound.length > 0"
+    >
+      <h3 class="websites__result__title">
+        <span class="websites__result__title__icon websites__result__title__icon--unmatched">
+          ?
+        </span>
+        Unmatched websites
+      </h3>
       <ul class="websites__result__list">
         <li
           class="websites__result__list__item"
@@ -74,6 +88,12 @@
 
       &__icon {
         margin-right: 1rem;
+
+        &--unmatched {
+          font-size:1.2em;
+          font-weight: bold;
+          color: #33356c;
+        }
       }
     }
 

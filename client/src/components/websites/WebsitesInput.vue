@@ -9,8 +9,9 @@
       class="websites__input__textarea"
       cols="60"
       rows="10"
+      :placeholder="'amazon.com\nhttps://google.com\nhttps://dropbox.com/example'"
     ></textarea>
-    <button @click="check" class="websites__input__submit">Check</button>
+    <button @click="check" class="websites__input__submit">Check websites</button>
   </div>
 </template>
 
@@ -23,7 +24,7 @@
     &__textarea {
       display: block;
       margin: auto;
-      background-color: #eeeeee;
+      background-color: #dfdfdf;
       border: 0px;
       padding: 10px;
       width: 700px;
@@ -32,14 +33,19 @@
     }
 
     &__submit {
-      padding: 10px 20px;
+      padding: 15px 30px;
       border: 0px;
       background-color: #33356c;
       color: #ffffff;
       display: block;
       margin: auto;
       margin-top: 30px;
+      font-size: 1.5rem;
       cursor: pointer;
+    }
+
+    &__instructions {
+      font-size: 1.3rem;
     }
   }
 }

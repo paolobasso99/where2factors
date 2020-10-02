@@ -2,11 +2,13 @@
   <div id="app">
     <GitHubCorner url="https://github.com/paolobasso99/where2factors" />
     <router-view />
+    <PageFooter />
   </div>
 </template>
 
 <script>
-import GitHubCorner from '@/components/GitHubCorner.vue';
+import GitHubCorner from '@/components/layout/GitHubCorner.vue';
+import PageFooter from '@/components/layout/PageFooter.vue';
 
 export default {
   props: {
@@ -14,6 +16,7 @@ export default {
   },
   components: {
     GitHubCorner,
+    PageFooter,
   },
 };
 </script>
@@ -29,7 +32,7 @@ html,
 body {
   padding: 0px;
   margin: 0px;
-  background-color: #ffffff;
+  background-color: #f7f7f8;
   box-sizing: border-box;
   font-family: 'Montserrat', Helvetica, Arial, sans-serif;
 }
@@ -47,10 +50,11 @@ body {
   .tooltip-inner {
     background: $color;
     color: white;
-    padding: 24px;
-    border-radius: 5px;
+    padding: 16px;
+    border-radius: 3px;
     box-shadow: 0 5px 30px rgba(black, 0.1);
     max-width: 250px;
+    font-size:0.8rem;
   }
 
   .tooltip-arrow {

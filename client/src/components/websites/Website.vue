@@ -20,6 +20,7 @@
             v-tooltip="{
               content: website.exception,
               classes: ['danger'],
+              offset: 10
             }"
             icon-name="Exception"
             icon-color="#DD491B"
@@ -32,15 +33,21 @@
         {{ website.query }}
       </div>
     </div>
-    <ul v-if="'tfa' in website && website.tfa.length > 0" class="website__methods">
-      <li
-        v-for="method in website.tfa"
-        :key="method"
-        class="website__methods__method"
-      >
-        {{ method }}
-      </li>
-    </ul>
+    <div
+      class="website__methods"
+      v-if="'tfa' in website && website.tfa.length > 0"
+    >
+      <span>Methods:</span>
+      <ul class="website__methods__list">
+        <li
+          v-for="method in website.tfa"
+          :key="method"
+          class="website__methods__list__method"
+        >
+          {{ method }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -69,18 +76,21 @@
   }
 
   &__methods {
-    width: 100%;
-    list-style-type: none;
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 20px;
+    margin-top: 10px;
+    text-align: left;
+    font-size: 0.8rem;
 
-    &__method {
-      padding: 10px 20px;
-      text-transform: uppercase;
-      background-color: #33356c;
-      color: #fff;
-      font-size:0.7rem;
+    &__list {
+      list-style-type: none;
+      margin: 0px;
+      padding: 0px;
+      display: inline;
+
+      &__method {
+        margin: 0px 20px;
+        text-transform: uppercase;
+        display: inline;
+      }
     }
   }
 }
