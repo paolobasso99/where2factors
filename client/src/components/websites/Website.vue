@@ -2,15 +2,21 @@
   <div class="website">
     <div class="website__header">
       <div class="website__header__main">
-        <img
-          :src="website.img"
-          :alt="website.name"
-          class="website__header__main__img"
-        />
+        <span class="website__header__main__item">
+          <img
+            :src="website.img"
+            :alt="website.name"
+            class="website__header__main__img"
+          />
+        </span>
         <span class="website__header__main__item">{{ website.name }}</span>
         <span v-if="website.doc" class="website__header__main__item">
-          <a :href="website.doc" target="_blank">
-            <Icon icon-name="Documentation" icon-color="#33356c">
+          <a
+            :href="website.doc"
+            target="_blank"
+            class="website__header__main__item__link"
+          >
+            <Icon icon-name="Documentation" icon-color="#33356c" height="32">
               <IconBook />
             </Icon>
           </a>
@@ -24,6 +30,7 @@
             }"
             icon-name="Exception"
             icon-color="#DD491B"
+            height="32"
           >
             <IconAlert />
           </Icon>
@@ -61,6 +68,7 @@
       display: flex;
       justify-content: center;
       align-content: center;
+      font-weight: 400;
 
       &__item {
         margin-left: 20px;
@@ -69,10 +77,46 @@
         justify-content: center;
         align-content: center;
         flex-direction: column;
+
+        @media all and (max-width: 450px) {
+          margin-left: 10px;
+        }
+
+        @media all and (max-width: 500px) {
+          font-size: 1rem;
+        }
+
+        @media all and (max-width: 450px) {
+          font-size: 0.9rem;
+        }
+
+        &:first-child {
+          margin-left: 0px;
+        }
+
+        &:last-child {
+          margin-right: 20px;
+          @media all and (max-width: 450px) {
+            margin-right: 10px;
+          }
+        }
+
+        &__link {
+          height: 100%;
+          display: inline-flex;
+          align-items: center;
+          max-height: 100%;
+        }
       }
 
       &__img {
         vertical-align: top;
+        height: 32px;
+        width: 32px;
+        @media all and (max-width: 450px) {
+          height: 24px;
+          width: 24px;
+        }
       }
     }
 
@@ -82,6 +126,12 @@
       justify-content: center;
       align-content: center;
       flex-direction: column;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+
+      @media all and (max-width: 450px) {
+        font-size: 0.6rem;
+      }
     }
   }
 

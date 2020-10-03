@@ -25,27 +25,35 @@ router.post(
       const found = [];
       const notFound = [];
 
+      // Avoid checking duplicates
+      const checkedHosts = [];
+
       for (let query of websites) {
         query = query.trim();
-        
+
         if (query.length > 0) {
           const host = WebsitesService.getHost(query);
-          const domain = WebsitesService.getDomain(host);
 
-          let website = false;
-          if (host) {
-            website = await WebsitesDB.findByHost(host);
-          }
+          if (!checkedHosts.includes(host)) {
+            checkedHosts.push(host);
 
-          if (!website && domain) {
-            website = await WebsitesDB.findByDomain(domain);
-          }
+            const domain = WebsitesService.getDomain(host);
 
-          if (website) {
-            website.query = host;
-            found.push(website);
-          } else {
-            notFound.push(host);
+            let website = false;
+            if (host) {
+              website = await WebsitesDB.findByHost(host);
+            }
+
+            if (!website && domain) {
+              website = await WebsitesDB.findByDomain(domain);
+            }
+
+            if (website) {
+              website.query = host;
+              found.push(website);
+            } else {
+              notFound.push(host);
+            }
           }
         }
       }

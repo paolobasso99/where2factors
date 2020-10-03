@@ -32,7 +32,6 @@ const website = {
 };
 
 describe('websitesAPI', function () {
-
   before(async function () {
     await connectDB();
     await WebsitesDB.deleteAll();
@@ -40,7 +39,7 @@ describe('websitesAPI', function () {
   });
 
   after(async function () {
-    server.close();
+    await server.close();
     await disconnectDB();
   });
 
@@ -51,8 +50,12 @@ describe('websitesAPI', function () {
         .post('/api/websites')
         .send({
           websites: [
-            'https://www.example.com/example?example=example',
-            'https://www.notfound.com/',
+            '      https://www.example.com/example?example=example',
+            'ftp://www.notfound.com/',
+            // Do not check duplicate hosts
+            'https://www.notfound.com/askbdkbasdk',
+            // Do not check empty lines
+            '    ',
           ],
         });
 
@@ -67,7 +70,7 @@ describe('websitesAPI', function () {
       assert.lengthOf(res.body.found, 1);
       assert.lengthOf(res.body.notFound, 1);
 
-      await assert.deepNestedInclude(res.body.found[0], website)
+      await assert.deepNestedInclude(res.body.found[0], website);
     });
   });
 });

@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500');
 
 * {
   box-sizing: border-box;
@@ -35,6 +35,7 @@ body {
   background-color: #f7f7f8;
   box-sizing: border-box;
   font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+  font-weight: 300;
 }
 
 .page {

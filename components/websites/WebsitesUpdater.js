@@ -73,7 +73,6 @@ class WebsitesUpdater {
    */
   static async getWebsites() {
     try {
-      logger.info('Getting categories yml files');
       const categoriesYmlUrls = await WebsitesUpdater.getCategoriesYmlUrls();
 
       if (categoriesYmlUrls) {
@@ -81,7 +80,6 @@ class WebsitesUpdater {
 
         logger.info('Getting websites from yml files');
         for (const ymlUrl of categoriesYmlUrls) {
-          logger.debug('Getting websites from yml: ' + ymlUrl);
           const newWebsitesPromise = WebsitesUpdater.getWebsitesFromYmlUrl(
             ymlUrl
           );
@@ -92,7 +90,7 @@ class WebsitesUpdater {
           const websites = await Promise.all(promises);
 
           // Merge categories
-          return websites.reduce((accumulator, current) => {
+          return await websites.reduce((accumulator, current) => {
             return accumulator.concat(current);
           }, []);
         } catch (error) {
@@ -117,6 +115,7 @@ class WebsitesUpdater {
    */
   static async getWebsitesFromYmlUrl(ymlUrl) {
     try {
+      logger.debug('Getting websites from yml: ' + ymlUrl);
       const response = await axios.get(ymlUrl, {
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
@@ -162,6 +161,7 @@ class WebsitesUpdater {
    */
   static async getCategoriesYmlUrls() {
     try {
+      logger.info('Getting categories yml files');
       const response = await axios.get(
         'https://api.github.com/repos/2factorauth/twofactorauth/contents/_data',
         {

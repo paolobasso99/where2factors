@@ -9,10 +9,11 @@
           class="websites__result__title__icon"
           icon-name="With TFA"
           icon-color="#4AAD52"
+          width="25"
         >
           <IconTick />
         </Icon>
-        Websites with TFA
+        With TFA
       </h3>
       <ul class="websites__result__list">
         <li
@@ -33,10 +34,11 @@
           class="websites__result__title__icon"
           icon-name="Without TFA"
           icon-color="#DD491B"
+          width="25"
         >
           <IconX />
         </Icon>
-        Websites without TFA
+        Without TFA
       </h3>
       <ul class="websites__result__list">
         <li
@@ -57,11 +59,11 @@
         <span class="websites__result__title__icon websites__result__title__icon--unmatched">
           ?
         </span>
-        Unmatched websites
+        Unmatched
       </h3>
       <ul class="websites__result__list">
         <li
-          class="websites__result__list__item"
+          class="websites__result__list__item websites__result__list__item--unmatched"
           v-for="query in this.websites.notFound"
           :key="query"
         >
@@ -82,7 +84,7 @@
     }
 
     &__title {
-      font-weight: normal;
+      font-weight: 400;
       font-size: 1.5rem;
       margin: 24px 0px;
 
@@ -91,7 +93,7 @@
 
         &--unmatched {
           font-size:1.2em;
-          font-weight: bold;
+          font-weight: 400;
           color: #33356c;
         }
       }
@@ -103,6 +105,10 @@
 
       &__item {
         margin: 40px 0px;
+
+        &--unmatched {
+          margin: 20px 0px;
+        }
 
         &:first-child {
           margin-top: 10px;

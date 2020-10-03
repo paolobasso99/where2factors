@@ -4,7 +4,14 @@
       Insert a new-line or comma separated list of websites to check
     </p>
     <p class="websites__input__tip">
-      TIP: Export all your website from your password manager (BitWarden, LastPass, 1Password, ...)
+      TIP: Export all your accounts from your password manager, tutorial
+      <a
+        href="https://github.com/paolobasso99/where2factors"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="websites__input__tip__link"
+        >here</a
+      >.
     </p>
     <textarea
       v-model="websitesInput"
@@ -17,7 +24,12 @@
       "
     ></textarea>
     <button @click="check" class="websites__input__submit">
-      <Icon v-if="loading" icon-name="Loading" icon-color="#fff"
+      <Icon
+        v-if="loading"
+        icon-name="Loading"
+        icon-color="#fff"
+        viewBox="0 0 38 38"
+        class="websites__input__submit__icon"
         ><IconLoading
       /></Icon>
       <span v-if="loading">Checking...</span>
@@ -98,15 +110,38 @@ export default {
       border: 0px;
       background-color: #33356c;
       color: #ffffff;
-      display: block;
+      display: flex;
+      justify-content: center;
+      align-content: center;
       margin: auto;
       margin-top: 30px;
       font-size: 1.5rem;
       cursor: pointer;
+
+      &__icon {
+        margin-right: 10px;
+      }
     }
 
     &__instructions {
       font-size: 1.3rem;
+      margin: 20px 0 10px;
+    }
+
+    &__tip {
+      color: #787878;
+      font-size: 0.9rem;
+      margin-top: 0px;
+      &__link {
+        text-decoration: none;
+        color: #33356c;
+        font-weight: 500;
+
+        &:hover,
+        &:focus {
+          color: #33356c;
+        }
+      }
     }
   }
 }

@@ -35,10 +35,12 @@
   color: #5f5b6e;
   margin-top: 30px;
   font-size:0.9rem;
+  font-weight: 300;
 
   &__link {
     text-decoration: none;
     color:#33356c;
+    font-weight: 500;
 
     &:hover, &:focus {
       color:#33356c;

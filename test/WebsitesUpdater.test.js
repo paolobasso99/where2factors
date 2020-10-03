@@ -9,7 +9,7 @@ const WebsitesUpdater = require('../components/websites/WebsitesUpdater');
 const WebsitesDB = require('../components/websites/WebsitesDB');
 
 describe('WebsitesUpdater', function() {
-  describe('getCategories', function() {
+  describe('get websites from github', function() {
     it('getCategoriesYmlUrls() should return a non empty array', async function() {
       const ymlUrls = await WebsitesUpdater.getCategoriesYmlUrls();
 
