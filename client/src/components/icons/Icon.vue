@@ -1,18 +1,20 @@
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    :width="width"
-    :height="height"
-    viewBox="0 0 18 18"
-    :aria-labelledby="iconName"
-    role="presentation"
-    class="icon"
-  >
-    <title :id="iconName" lang="en">{{ iconName }}</title>
-    <g :fill="iconColor">
-      <slot />
-    </g>
-  </svg>
+  <div class="icon">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      :aria-labelledby="iconName"
+      :height="height"
+      :width="width"
+      role="presentation"
+      class="icon__svg"
+    >
+      <title :id="iconName" lang="en">{{ iconName }}</title>
+      <g :fill="iconColor">
+        <slot />
+      </g>
+    </svg>
+  </div>
 </template>
 
 <script>
@@ -24,11 +26,11 @@ export default {
     },
     width: {
       type: [Number, String],
-      default: 18,
+      default: 20,
     },
     height: {
       type: [Number, String],
-      default: 18,
+      default: 20,
     },
     iconColor: {
       type: String,
@@ -42,5 +44,11 @@ export default {
 .icon {
   overflow: visible;
   vertical-align: middle;
+  display: inline-block;
+
+  &__svg {
+    width: 100%;
+    height: auto;
+  }
 }
 </style>

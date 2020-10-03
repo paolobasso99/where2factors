@@ -1,26 +1,26 @@
 <template>
   <div class="website">
     <div class="website__header">
-      <div>
+      <div class="website__header__main">
         <img
           :src="website.img"
           :alt="website.name"
-          class="website__header__img"
+          class="website__header__main__img"
         />
-        <span class="website__header__item">{{ website.name }}</span>
-        <span v-if="website.doc" class="website__header__item">
+        <span class="website__header__main__item">{{ website.name }}</span>
+        <span v-if="website.doc" class="website__header__main__item">
           <a :href="website.doc" target="_blank">
             <Icon icon-name="Documentation" icon-color="#33356c">
               <IconBook />
             </Icon>
           </a>
         </span>
-        <span v-if="website.exception" class="website__header__item">
+        <span v-if="website.exception" class="website__header__main__item">
           <Icon
             v-tooltip="{
               content: website.exception,
               classes: ['danger'],
-              offset: 10
+              offset: 10,
             }"
             icon-name="Exception"
             icon-color="#DD491B"
@@ -57,13 +57,23 @@
     display: flex;
     justify-content: space-between;
 
-    &__item {
-      margin-left: 20px;
-      font-size: 1.2rem;
-    }
+    &__main {
+      display: flex;
+      justify-content: center;
+      align-content: center;
 
-    &__img {
-      vertical-align: top;
+      &__item {
+        margin-left: 20px;
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+      }
+
+      &__img {
+        vertical-align: top;
+      }
     }
 
     &__query {
