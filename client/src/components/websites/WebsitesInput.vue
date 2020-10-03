@@ -1,7 +1,10 @@
 <template>
   <div class="websites__input">
     <p class="websites__input__instructions">
-      Insert a new-line separated list of websites to check
+      Insert a new-line or comma separated list of websites to check
+    </p>
+    <p class="websites__input__tip">
+      TIP: Export all your website from your password manager (BitWarden, LastPass, 1Password, ...)
     </p>
     <textarea
       v-model="websitesInput"
@@ -14,10 +17,11 @@
       "
     ></textarea>
     <button @click="check" class="websites__input__submit">
-      <Icon v-if="!loading" icon-name="Loading" icon-color="#fff"
+      <Icon v-if="loading" icon-name="Loading" icon-color="#fff"
         ><IconLoading
       /></Icon>
-      Check websites
+      <span v-if="loading">Checking...</span>
+      <span v-else>Check websites</span>
     </button>
   </div>
 </template>
@@ -43,12 +47,17 @@ export default {
   },
   methods: {
     async check() {
-      // Remove empty lines https://stackoverflow.com/questions/16369642/javascript-how-to-use-a-regular-expression-to-remove-blank-lines-from-a-string
-      this.websitesInput = this.websitesInput.replace(/^\s*$(?:\r\n?|\n)/gm, '');
+      this.$emit('startChecking');
 
-      // Split to array
+      // Remove empty lines https://stackoverflow.com/questions/16369642/javascript-how-to-use-a-regular-expression-to-remove-blank-lines-from-a-string
+      this.websitesInput = this.websitesInput.replace(
+        /^\s*$(?:\r\n?|\n)/gm,
+        '',
+      );
+
+      // Split to array by new line or comma https://regex101.com/r/yUYSAs/2
       if (this.websitesInput.length > 0) {
-        this.websites = this.websitesInput.split(/[\r\n]+/);
+        this.websites = this.websitesInput.split(/[\r\n,]+/);
       } else {
         this.websites = [];
       }

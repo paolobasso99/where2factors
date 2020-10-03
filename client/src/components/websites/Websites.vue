@@ -1,6 +1,10 @@
 <template>
   <div class="websites">
-    <WebsitesInput @checked="onChecked" :loading="loading" />
+    <WebsitesInput
+      @checked="onChecked"
+      @startChecking="onStartChecking"
+      :loading="loading"
+    />
     <WebsitesResult :websites="websites" />
   </div>
 </template>
@@ -8,7 +12,7 @@
 <style lang="scss" scoped>
 .websites {
   text-align: center;
-  font-size:1rem;
+  font-size: 1rem;
 }
 </style>
 
@@ -33,10 +37,11 @@ export default {
     WebsitesResult,
   },
   methods: {
-    async onChecked(websites) {
+    async onStartChecking() {
       // Set loading animation
       this.loading = true;
-
+    },
+    async onChecked(websites) {
       // Empty
       this.websites = {
         withTFA: [],
@@ -44,12 +49,12 @@ export default {
         notFound: [],
       };
 
-      if('notFound' in websites) {
+      if ('notFound' in websites) {
         this.websites.notFound = websites.notFound;
       }
 
       // Sort
-      if('found' in websites) {
+      if ('found' in websites) {
         for (const website of websites.found) {
           if ('tfa' in website && website.tfa.length > 0) {
             this.websites.withTFA.push(website);

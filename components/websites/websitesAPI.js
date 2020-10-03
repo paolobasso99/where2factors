@@ -42,10 +42,10 @@ router.post(
           }
 
           if (website) {
-            website.query = query;
+            website.query = host;
             found.push(website);
           } else {
-            notFound.push(query);
+            notFound.push(host);
           }
         }
       }

@@ -102,7 +102,7 @@
       padding: 0px;
 
       &__item {
-        margin: 25px 0px;
+        margin: 40px 0px;
 
         &:first-child {
           margin-top: 10px;
