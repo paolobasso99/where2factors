@@ -9,7 +9,7 @@
       role="presentation"
       class="icon__svg"
     >
-      <title :id="iconName" lang="en">{{ iconName }}</title>
+      <title lang="en">{{ iconName }}</title>
       <g :fill="iconColor">
         <slot />
       </g>

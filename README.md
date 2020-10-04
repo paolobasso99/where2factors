@@ -13,11 +13,14 @@ The idea is to use [twofactorauth.org](https://twofactorauth.org/) data to check
 - [x] An express web server to interact with the database
 - [x] Test the api with mocha and chai
 - [x] A Figma complete prototype of the frontend
-- [ ] Continuous integration with GitHub Actions *(in development)*
-- [ ] A VueJS frontend *(in development)*
-- [ ] Unit test the front end
+- [x] Continuous integration with GitHub Actions *(2020/10/04)*
+- [X] A VueJS frontend *(2020/10/0)*
+- [ ] Unit test the front end *(in development)*
+- [ ] Component test front end
 - [ ] E2E test the front end with Cypress
+- [ ] Sentry integration 
 - [ ] Buy domain
 - [ ] Host in an Hetzner VPS
 - [ ] Continuous deployment with GitHub Actions
 - [ ] Write a blog post about this project
+- [ ] Share

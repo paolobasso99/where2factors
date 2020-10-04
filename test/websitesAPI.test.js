@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'test';
 process.env.PORT = 3001;
 const { resolve } = require('path');
 require('dotenv').config({ path: resolve(__dirname, '../.env.test') });
+const sinon = require('sinon');
 
 // Chai config
 const chai = require('chai');
@@ -30,6 +31,14 @@ const website = {
   exception: 'example',
   status: 'example',
 };
+
+// describe("sinon", function () {
+//   it('it', async function () {
+//     sinon.stub(WebsitesDB, 'findByHost').resolves(website);
+//     assert.equal(website, WebsitesDB.findByHost("www.sdfds.com"));
+//     sinon.restore()
+//   });
+// });
 
 describe('websitesAPI', function () {
   before(async function () {
