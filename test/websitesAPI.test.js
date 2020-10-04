@@ -12,7 +12,6 @@ chai.use(chaiHttp);
 
 const WebsitesDB = require('../components/websites/WebsitesDB');
 const disconnectDB = require('../db/disconnectDB');
-const connectDB = require('../db/connectDB');
 
 const server = require('../bin/www');
 
@@ -32,24 +31,20 @@ const website = {
   status: 'example',
 };
 
-// describe("sinon", function () {
-//   it('it', async function () {
-//     sinon.stub(WebsitesDB, 'findByHost').resolves(website);
-//     assert.equal(website, WebsitesDB.findByHost("www.sdfds.com"));
-//     sinon.restore()
-//   });
-// });
-
 describe('websitesAPI', function () {
   before(async function () {
-    await connectDB();
-    await WebsitesDB.deleteAll();
-    await WebsitesDB.addOrUpdate(website);
+    // Stub database
+    sinon.stub(WebsitesDB, 'findByDomain').resolves(false);
+
+    sinon.stub(WebsitesDB, 'findByHost');
+    WebsitesDB.findByHost.resolves(false);
+    WebsitesDB.findByHost.withArgs('www.example.com').resolves(website);
   });
 
   after(async function () {
     await server.close();
     await disconnectDB();
+    await sinon.restore();
   });
 
   describe('POST /api/websites', function () {
