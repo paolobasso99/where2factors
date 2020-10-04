@@ -5,10 +5,7 @@ const { assert } = require('chai');
 const sinon = require('sinon');
 const axios = require('axios');
 const fs = require('fs');
-const { after } = require('mocha');
 
-const connectDB = require('../db/connectDB');
-const disconnectDB = require('../db/disconnectDB');
 const WebsitesUpdater = require('../components/websites/WebsitesUpdater');
 const WebsitesDB = require('../components/websites/WebsitesDB');
 
@@ -44,7 +41,7 @@ describe('WebsitesUpdater', function () {
     it('getWebsitesFromYmlUrl(ymlUrl) should return a non empty array', async function () {
       // Stub GitHub api
       const response = {
-        data: fs.readFileSync('./test/twofactorauth.org/backup.yml'),
+        data: fs.readFileSync('./test/twofactorauth.org/backup.yml', 'utf8'),
       };
       sinon.stub(axios, 'get').resolves(response);
 
@@ -66,7 +63,7 @@ describe('WebsitesUpdater', function () {
           'https://raw.githubusercontent.com/2factorauth/twofactorauth/master/_data/backup.yml',
         ]);
       const response = {
-        data: fs.readFileSync('./test/twofactorauth.org/backup.yml'),
+        data: fs.readFileSync('./test/twofactorauth.org/backup.yml', 'utf8'),
       };
       sinon.stub(axios, 'get').resolves(response);
 
@@ -102,12 +99,8 @@ describe('WebsitesUpdater', function () {
           tfa: ['method1', 'method2'],
         },
       ];
-      sinon.stub(WebsitesUpdater, 'getWebsites').resolves([mockWebsites]);
-      sinon.stub(WebsitesDB, 'addOrUpdate').resolves();
-
-      // Stub database
-      sinon.stub(connectDB);
-      sinon.stub(disconnectDB);
+      sinon.stub(WebsitesUpdater, 'getWebsites').resolves(mockWebsites);
+      sinon.stub(WebsitesDB, 'addOrUpdate');
 
       // Update
       await WebsitesUpdater.update();

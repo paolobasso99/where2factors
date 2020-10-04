@@ -12,7 +12,6 @@ chai.use(chaiHttp);
 
 const WebsitesDB = require('../components/websites/WebsitesDB');
 const disconnectDB = require('../db/disconnectDB');
-
 const server = require('../bin/www');
 
 const website = {

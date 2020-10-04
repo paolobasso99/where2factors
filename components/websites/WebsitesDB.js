@@ -31,6 +31,7 @@ class WebsiteDB {
    * @param {websiteObj} websiteObj The website object.
    */
   static async addOrUpdate(websiteObj) {
+    logger.debug('Adding ' + websiteObj.host);
     const newWebsite = {
       name: websiteObj.name,
       url: websiteObj.url,

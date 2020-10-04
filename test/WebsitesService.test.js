@@ -1,8 +1,8 @@
 process.env.NODE_ENV = 'test';
 const { resolve } = require('path');
 require('dotenv').config({ path: resolve(__dirname, '../.env.test') });
-
 const { assert } = require('chai');
+
 const WebsitesService = require('../components/websites/WebsitesService');
 
 describe('WebsitesService', function() {

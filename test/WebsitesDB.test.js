@@ -1,10 +1,9 @@
 process.env.NODE_ENV = 'test';
 const { resolve } = require('path');
 require('dotenv').config({ path: resolve(__dirname, '../.env.test') });
-
 const { assert } = require('chai');
-const WebsitesDB = require('../components/websites/WebsitesDB');
 
+const WebsitesDB = require('../components/websites/WebsitesDB');
 const connectDB = require('../db/connectDB');
 const disconnectDB = require('../db/disconnectDB');
 
@@ -24,6 +23,11 @@ const website = {
   status: 'example',
 };
 
+/**
+ * Here I will test the database wrapper class. 
+ * Since this is the purpose it makes sense to NOT stub the database with sinon
+ * but use a real test database instead.
+ */
 describe('WebsitesDB', function () {
   before(async function () {
     await connectDB();

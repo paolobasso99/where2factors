@@ -49,7 +49,6 @@ router.post(
             }
 
             if (website) {
-              website.query = host;
               found.push(website);
             } else {
               notFound.push(host);
