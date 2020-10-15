@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const helmet = require("helmet");
 const morgan = require('morgan');
 const cors = require('cors')
 const logger = require('./config/logger');
@@ -17,6 +18,7 @@ app.use(morgan('common', { stream: logger.stream }));
 
 // Middlewares
 app.use(express.json());
+app.use(helmet());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({

@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <main id="app" role="main">
     <GitHubCorner url="https://github.com/paolobasso99/where2factors" />
     <router-view />
     <PageFooter />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -32,10 +32,11 @@ html,
 body {
   padding: 0px;
   margin: 0px;
-  background-color: #f7f7f8;
+  background-color: $background-color;
   box-sizing: border-box;
   font-family: 'Montserrat', Helvetica, Arial, sans-serif;
   font-weight: 300;
+  color: $text-color;
 }
 
 .page {
@@ -46,16 +47,16 @@ body {
 }
 
 .tooltip {
-  $color: rgba(#33356c, 1);
+  $color: rgba($primary-color, 1);
 
   .tooltip-inner {
     background: $color;
-    color: white;
+    color: $on-primary-color;
     padding: 16px;
     border-radius: 3px;
     box-shadow: 0 5px 30px rgba(black, 0.1);
     max-width: 250px;
-    font-size:0.8rem;
+    font-size: 0.8rem;
   }
 
   .tooltip-arrow {
@@ -63,11 +64,11 @@ body {
   }
 
   &.danger {
-    $color: rgba(#dd491b, 1);
+    $color: rgba($danger-color, 1);
 
     .tooltip-inner {
       background: $color;
-      color: white;
+      color: $on-danger-color;
     }
 
     .tooltip-arrow {

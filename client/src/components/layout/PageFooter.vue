@@ -30,20 +30,20 @@
 .footer {
   width: 100%;
   padding: 40px;
-  background-color: #dfdfdf;
+  background-color: $background-dark-color;
   text-align: center;
-  color: #5f5b6e;
+  color: $text-light-color;
   margin-top: 30px;
   font-size:0.9rem;
   font-weight: 300;
 
   &__link {
     text-decoration: none;
-    color:#33356c;
+    color:$primary-color;
     font-weight: 500;
 
     &:hover, &:focus {
-      color:#33356c;
+      color:$primary-color;
     }
   }
 }

@@ -1,8 +1,11 @@
 <template>
   <div class="websites__input">
-    <p class="websites__input__instructions">
+    <label
+      for="websites__input__textarea"
+      class="websites__input__instructions"
+    >
       Insert a new-line or comma separated list of websites to check
-    </p>
+    </label>
     <p class="websites__input__tip">
       TIP: Export all your accounts from your password manager, tutorial
       <a
@@ -17,6 +20,7 @@
       v-model="websitesInput"
       name="websites"
       class="websites__input__textarea"
+      id="websites__input__textarea"
       cols="60"
       rows="10"
       :placeholder="
@@ -97,7 +101,7 @@ export default {
     &__textarea {
       display: block;
       margin: auto;
-      background-color: #dfdfdf;
+      background-color: $background-dark-color;
       border: 0px;
       padding: 10px;
       width: 700px;
@@ -108,8 +112,8 @@ export default {
     &__submit {
       padding: 15px 30px;
       border: 0px;
-      background-color: #33356c;
-      color: #ffffff;
+      background-color: $primary-color;
+      color: $on-primary-color;
       display: flex;
       justify-content: center;
       align-content: center;
@@ -129,17 +133,17 @@ export default {
     }
 
     &__tip {
-      color: #787878;
+      color: $text-light-color;
       font-size: 0.9rem;
       margin-top: 0px;
       &__link {
         text-decoration: none;
-        color: #33356c;
+        color: $primary-color;
         font-weight: 500;
 
         &:hover,
         &:focus {
-          color: #33356c;
+          color: $primary-color;
         }
       }
     }

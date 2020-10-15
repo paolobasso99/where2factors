@@ -10,7 +10,8 @@
     "google",
     "prettier",
     "import",
-    "node"
+    "node",
+    "plugin:security/recommended"
   ],
   "globals": {
     "Atomics": "readonly",

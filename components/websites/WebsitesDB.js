@@ -70,7 +70,7 @@ class WebsiteDB {
    */
   static async findByHost(host) {
     try {
-      const website = await Website.findOne({ host });
+      const website = await Website.findOne({ host: host });
       if (website) {
         logger.debug(`Found website with the host ${host} in the database`);
         return website.toObject();
@@ -90,7 +90,7 @@ class WebsiteDB {
    */
   static async findByDomain(domain) {
     try {
-      const website = await Website.findOne({ domain });
+      const website = await Website.findOne({ domain: domain });
       if (website) {
         logger.debug(`Found website with the domain ${domain} in the database`);
         return website.toObject();

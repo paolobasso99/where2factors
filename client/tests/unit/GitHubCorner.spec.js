@@ -6,7 +6,7 @@ describe('GitHubCorner.vue', () => {
   it('has the right html', () => {
     const url = 'https://github.com/paolobasso99/where2factors';
     const wrapper = shallowMount(GitHubCorner, {
-      props: {
+      propsData: {
         url: url,
       },
     });
@@ -17,7 +17,6 @@ describe('GitHubCorner.vue', () => {
     expect(wrapper.get('a.github-corner svg path').exists()).to.equal(true);
 
     // Test url
-    console.log(wrapper.get('a.github-corner').element.href);
     expect(wrapper.get('a.github-corner').element.href).to.equal(url);
   });
 });

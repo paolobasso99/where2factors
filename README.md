@@ -1,5 +1,5 @@
 # WARNING: ACTIVE DEVELOPMENT
-
+[![Known Vulnerabilities](https://snyk.io/test/github/paolobasso99/where2factors/badge.svg)](https://snyk.io/test/github/paolobasso99/where2factors)
 # where2factors
 An app to find out which website that you use has two factors authentication.
 
@@ -16,11 +16,16 @@ The idea is to use [twofactorauth.org](https://twofactorauth.org/) data to check
 - [x] Continuous integration with GitHub Actions *(2020/10/04)*
 - [X] A VueJS frontend *(2020/10/0)*
 - [ ] Unit test the front end *(in development)*
-- [ ] Component test front end
-- [ ] E2E test the front end with Cypress
-- [ ] Sentry integration 
+- [ ] Component test front end *(in development)*
+- [ ] Favicon
+- [ ] SEO
 - [ ] Buy domain
 - [ ] Host in an Hetzner VPS
 - [ ] Continuous deployment with GitHub Actions
 - [ ] Write a blog post about this project
 - [ ] Share
+- [ ] PWA
+- [ ] E2E test the front end with Cypress
+- [ ] Automatic accessibility test with AXE
+- [ ] Automatic Lighthouse Audit
+- [ ] Sentry integration 

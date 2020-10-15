@@ -4,7 +4,7 @@ require('winston-daily-rotate-file');
 
 // log path
 let logPath = __dirname + '/../logs';
-if (process.env.NODE_ENV == 'test') {
+if (process.env.NODE_ENV === 'test') {
   logPath = __dirname + '/../logs/test';
 }
 

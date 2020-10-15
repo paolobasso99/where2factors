@@ -1,0 +1,20 @@
+name: CodeCov
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  scan:
+    name: codecov
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)

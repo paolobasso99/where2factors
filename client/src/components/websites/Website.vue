@@ -5,23 +5,24 @@
         <span class="website__header__main__item">
           <img
             :src="website.img"
-            :alt="website.name"
             class="website__header__main__img"
+            :alt="website.name + ' logo'"
           />
         </span>
-        <span class="website__header__main__item">{{ website.name }}</span>
-        <span v-if="website.doc" class="website__header__main__item">
+        <span class="website__header__main__item website__header__main__item--name">{{ website.name }}</span>
+        <span v-if="website.doc" class="website__header__main__item website__header__main__item--doc">
           <a
             :href="website.doc"
             target="_blank"
-            class="website__header__main__item__link"
+            class="website__header__main__item__link website__header__main__item__link--doc"
+            :aria-label="'Documentation for' + website.name"
           >
             <Icon icon-name="Documentation" icon-color="#33356c" height="32">
               <IconBook />
             </Icon>
           </a>
         </span>
-        <span v-if="website.exception" class="website__header__main__item">
+        <span v-if="website.exception" class="website__header__main__item website__header__main__item--exception">
           <Icon
             v-tooltip="{
               content: website.exception,
@@ -37,7 +38,7 @@
         </span>
       </div>
       <div class="website__header__query">
-        {{ website.query }}
+        {{ website.host }}
       </div>
     </div>
     <div
@@ -121,7 +122,7 @@
     }
 
     &__query {
-      color: #787878;
+      color: $text-light-color;
       display: flex;
       justify-content: center;
       align-content: center;

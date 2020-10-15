@@ -4,7 +4,7 @@ import Icon from '@/components/icons/Icon.vue';
 
 describe('Icon.vue', () => {
   it('has the right html', () => {
-    const props = {
+    const propsData = {
       iconName: 'name',
       width: '1',
       height: '1',
@@ -19,8 +19,6 @@ describe('Icon.vue', () => {
     // test HTML
     expect(wrapper.get('.icon').exists()).to.be.true;
 
-    console.log(wrapper.get('.icon__svg').element);
-    console.log(wrapper.get('.icon__svg').attributes());
     expect(wrapper.get('.icon__svg').exists()).to.be.true;
     expect(wrapper.get('.icon__svg').element.width).to.equal(props.width);
     expect(wrapper.get('.icon__svg').element.height).to.equal(props.height);
@@ -30,7 +28,6 @@ describe('Icon.vue', () => {
     );
 
     expect(wrapper.get('.icon__svg title').exists()).to.be.true;
-    expect(wrapper.get('.icon__svg title').text()).to.equal(props.iconName);
 
     expect(wrapper.get('.icon__svg g').exists()).to.be.true;
     expect(wrapper.get('.icon__svg g').element.fill).to.equal(props.iconColor);
