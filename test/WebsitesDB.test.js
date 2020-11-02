@@ -44,7 +44,7 @@ describe('WebsitesDB', function () {
       await WebsitesDB.addOrUpdate(website);
 
       // Check database
-      const added = await WebsitesDB.findByHost(website.host);
+      const added = await WebsitesDB.findBy("host", website.host);
       const count = await WebsitesDB.countAll();
 
       assert.equal(count, 1);
@@ -59,7 +59,7 @@ describe('WebsitesDB', function () {
       await WebsitesDB.addOrUpdate(website);
 
       // Check database
-      const added = await WebsitesDB.findByDomain(website.domain);
+      const added = await WebsitesDB.findBy("domain", website.domain);
       const count = await WebsitesDB.countAll();
 
       assert.equal(count, 1);

@@ -42,16 +42,14 @@ class WebsitesUpdater {
       const promises = [];
       logger.info('Updating websites in the database');
       for (const website of websites) {
-        if (website && website.url) {
-          website.host = WebsitesService.getHost(website.url);
-          website.domain = WebsitesService.getDomain(website.host);
+        website.host = WebsitesService.getHost(website.url);
+        website.domain = WebsitesService.getDomain(website.host);
 
-          try {
-            const promise = WebsitesDB.addOrUpdate(website);
-            promises.push(promise);
-          } catch (error) {
-            logger.error(error);
-          }
+        try {
+          const promise = WebsitesDB.addOrUpdate(website);
+          promises.push(promise);
+        } catch (error) {
+          logger.error(error);
         }
       }
 
@@ -79,12 +77,9 @@ class WebsitesUpdater {
         const promises = [];
 
         logger.info('Getting websites from yml files');
-        for (const ymlUrl of categoriesYmlUrls) {
-          const newWebsitesPromise = WebsitesUpdater.getWebsitesFromYmlUrl(
-            ymlUrl
-          );
-          promises.push(newWebsitesPromise);
-        }
+        categoriesYmlUrls.map((ymlUrl) => {
+          promises.push(WebsitesUpdater.getWebsitesFromYmlUrl(ymlUrl));
+        })
 
         try {
           const websites = await Promise.all(promises);
@@ -102,6 +97,16 @@ class WebsitesUpdater {
     }
 
     throw new Error('Unable to get websites');
+  }
+
+  /**
+   * Get the category from a YML file url.
+   * Example url: https://raw.githubusercontent.com/2factorauth/twofactorauth/master/_data/backup.yml.
+   * @param {string} ymlUrl The yml file url.
+   * @return {string} The category
+   */
+  static getCategoryFromYmlUrl(ymlUrl) {
+    return ymlUrl.substring(ymlUrl.lastIndexOf('/') + 1).replace('.yml', '');
   }
 
   /**
@@ -128,13 +133,15 @@ class WebsitesUpdater {
 
         // Fix image url and category
         if (websites && websites.length > 0) {
-          const category = ymlUrl
-            .substring(ymlUrl.lastIndexOf('/') + 1)
-            .replace('.yml', '');
+          const category = WebsitesUpdater.getCategoriesYmlUrls(ymlUrl);
+
           for (const website of websites) {
             website.category = category;
             website.img =
-              'https://raw.githubusercontent.com/2factorauth/twofactorauth/master/img/' + category + '/' + website.img;
+              'https://raw.githubusercontent.com/2factorauth/twofactorauth/master/img/' +
+              category +
+              '/' +
+              website.img;
           }
 
           return websites;

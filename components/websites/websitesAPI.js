@@ -41,11 +41,11 @@ router.post(
 
             let website = false;
             if (host) {
-              website = await WebsitesDB.findByHost(host);
+              website = await WebsitesDB.findBy("host", host);
             }
 
             if (!website && domain) {
-              website = await WebsitesDB.findByDomain(domain);
+              website = await WebsitesDB.findBy("domain", domain);
             }
 
             if (website) {

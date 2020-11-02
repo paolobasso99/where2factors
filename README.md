@@ -1,5 +1,8 @@
 # WARNING: ACTIVE DEVELOPMENT
 [![Known Vulnerabilities](https://snyk.io/test/github/paolobasso99/where2factors/badge.svg)](https://snyk.io/test/github/paolobasso99/where2factors)
+[![Maintainability](https://api.codeclimate.com/v1/badges/79a76b32839887e1b6a6/maintainability)](https://codeclimate.com/github/paolobasso99/where2factors/maintainability)
+[![CodeFactor](https://www.codefactor.io/repository/github/paolobasso99/where2factors/badge)](https://www.codefactor.io/repository/github/paolobasso99/where2factors)
+
 # where2factors
 An app to find out which website that you use has two factors authentication.
 

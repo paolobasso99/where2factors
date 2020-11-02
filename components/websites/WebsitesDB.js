@@ -32,29 +32,14 @@ class WebsiteDB {
    */
   static async addOrUpdate(websiteObj) {
     logger.debug('Adding ' + websiteObj.host);
-    const newWebsite = {
-      name: websiteObj.name,
-      url: websiteObj.url,
-      host: websiteObj.host,
-      category: websiteObj.category,
-      domain: websiteObj.domain,
-      twitter: websiteObj.twitter,
-      facebook: websiteObj.facebook,
-      email_address: websiteObj.email_address,
-      img: websiteObj.img,
-      doc: websiteObj.doc,
-      tfa: websiteObj.tfa,
-      exception: websiteObj.exception,
-      status: websiteObj.status,
-    };
-
-    if (newWebsite.host) {
+    
+    if (websiteObj.host) {
       try {
         // Find website by host
-        await Website.replaceOne({ host: newWebsite.host }, newWebsite, {
+        await Website.replaceOne({ host: websiteObj.host }, websiteObj, {
           upsert: true,
         });
-        logger.debug('Added ' + newWebsite.host);
+        logger.debug('Added ' + websiteObj.host);
       } catch (error) {
         logger.error(error);
       }
@@ -65,41 +50,25 @@ class WebsiteDB {
 
   /**
    * Find a website by host.
-   * @param {string} host The hostname.
+   * @param {string} param The param to find by (for example host or domain).
+   * @param {string} value The value of param.
    * @return {(websiteObj|boolean)} The websiteObj or false if no website is found.
    */
-  static async findByHost(host) {
+  static async findBy(param, value) {
     try {
-      const website = await Website.findOne({ host: host });
+      const query = {}
+      query[param] = value;
+      
+      const website = await Website.findOne(query);
       if (website) {
-        logger.debug(`Found website with the host ${host} in the database`);
+        logger.debug(`Found website with ${param}=${value} in the database`);
         return website.toObject();
       }
     } catch (error) {
       logger.log(error);
     }
 
-    logger.debug(`No website with the host ${host} in the database`);
-    return false;
-  }
-
-  /**
-   * Find a website by domain.
-   * @param {string} domain The domain.
-   * @return {(websiteObj|boolean)} The websiteObj or false if no website is found.
-   */
-  static async findByDomain(domain) {
-    try {
-      const website = await Website.findOne({ domain: domain });
-      if (website) {
-        logger.debug(`Found website with the domain ${domain} in the database`);
-        return website.toObject();
-      }
-    } catch (error) {
-      logger.log(error);
-    }
-
-    logger.debug(`No website with the domain ${domain} in the database`);
+    logger.debug(`No website with the host ${param}=${value} in the database`);
     return false;
   }
 

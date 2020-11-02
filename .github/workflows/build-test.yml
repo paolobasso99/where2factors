@@ -3,11 +3,11 @@
 
 name: Build and test
 
-on: 
+on:
   pull_request:
   push:
     branches:
-      - "master"
+      - 'master'
 
 jobs:
   build:
