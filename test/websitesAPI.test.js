@@ -33,11 +33,9 @@ const website = {
 describe('websitesAPI', function () {
   before(async function () {
     // Stub database
-    sinon.stub(WebsitesDB, 'findByDomain').resolves(false);
-
-    sinon.stub(WebsitesDB, 'findByHost');
-    WebsitesDB.findByHost.resolves(false);
-    WebsitesDB.findByHost.withArgs('www.example.com').resolves(website);
+    sinon.stub(WebsitesDB, 'findBy');
+    WebsitesDB.findBy.resolves(false);
+    WebsitesDB.findBy.withArgs('host', 'www.example.com').resolves(website);
   });
 
   after(async function () {

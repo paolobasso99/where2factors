@@ -1,7 +1,7 @@
 
 
 {
-    "masterPicture": "src/assets/favicon.svg",
+  "masterPicture": "src/assets/favicon.svg",
 	"iconsPath": "/",
 	"design": {
 		"ios": {

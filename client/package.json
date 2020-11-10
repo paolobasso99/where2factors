@@ -8,7 +8,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "favicon": "real-favicon generate src/faviconDescription.json src/faviconData.json src/assets/icons/"
+    "favicon": "real-favicon generate src/faviconDescription.json src/faviconData.json src/public/icons/"
   },
   "dependencies": {
     "core-js": "^3.6.5",

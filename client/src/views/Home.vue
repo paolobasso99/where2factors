@@ -11,7 +11,7 @@
       </h1>
       <h2 class="header__subtitle">
         where2factors helps you to find which websites that you use have two
-        factors authentication (TFA)
+        factor authentication (TFA)
       </h2>
     </header>
 

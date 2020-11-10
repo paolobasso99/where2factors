@@ -19,4 +19,6 @@ module.exports = async () => {
   } catch (error) {
     logger.error(error);
   }
+
+  return false;
 };

@@ -1,0 +1,70 @@
+# This workflow will do a clean install of node dependencies, build the source code, run tests across different versions of node and deploy
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build and test
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: paolobasso/where2factors
+          tags: paolobasso/where2factors:${GITHUB_REF##*/}, paolobasso/where2factors:latest
+          push: true
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2.1.0
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERHUB_REPOSITORY: paolobasso/where2factors
+
+  deploy_backend:
+    needs: [push_to_registry]
+    runs-on: ubuntu-latest
+    name: deploy_backend
+    steps:
+      - name: SSH to update backend
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/github/where2factors
+            docker-compose pull
+            docker-compose up -d
+
+  deploy_frontend:
+    needs: 
+      - push_to_registry
+      - deploy_backend
+    runs-on: ubuntu-latest
+    name: deploy_frontend
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd client
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install dependecies
+        run: npm i
+      - name: Build
+        run: npm run build
+      - name: Push to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          destination_dir: dist
