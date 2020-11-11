@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  where2factors_db:
+    image: mongo:3.6
+    container_name: where2factors_db
+    restart: unless-stopped
+    volumes: 
+    - ./data/db:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: where2factors
+      MONGO_INITDB_ROOT_USERNAME: where2factors
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - db
+  
+  where2factors:
+    image: paolobasso/where2factors:latest
+    name: where2factors
+    depends_on: 
+      - where2factors_db
+    restart: unless-stopped
+    environment:
+      MONGO_URL: mongodb+srv://where2factors:${DB_PASSWORD}@where2factors_db:27017/where2factors?retryWrites=true&w=majority
+    networks:
+      - web_proxy
+      - db
+
+networks:
+  db:
+    driver: bridge
+  web_proxy:
+    external:
+      name: web_proxy
