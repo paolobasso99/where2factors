@@ -15,7 +15,7 @@
     "register-service-worker": "^1.7.1",
     "v-tooltip": "^2.0.3",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.4"
+    "vue-router": "^3.4.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
