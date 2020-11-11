@@ -28,4 +28,4 @@ jobs:
       - name: Unit test
         run: npm run test:unit
       - name: E2E test
-        run: npm run test:e2e
+        run: npm run test:e2e -- --headless
