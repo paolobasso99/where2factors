@@ -10,7 +10,7 @@
     "dev": "concurrently --names \"SERVER,CLIENT\" \"npm run server\" \"npm run client\"",
     "update": "node cli.js update",
     "coverage": "nyc npm run test --check-coverage",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov"
   },
   "dependencies": {
     "axios": "^0.20.0",
