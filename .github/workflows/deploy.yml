@@ -55,10 +55,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cd client
-      - name: Use Node.js 14
+      - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 14.x
       - name: Install dependecies
         run: npm i
       - name: Build
