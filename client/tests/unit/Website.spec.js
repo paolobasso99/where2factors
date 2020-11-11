@@ -33,13 +33,13 @@ describe('Website.vue', () => {
         website.host,
       );
       expect(
-        wrapper.findAllComponents('.website__methods__list__method').length,
+        wrapper.findAll('.website__methods__list__method').length,
       ).to.equal(website.tfa.length);
 
       // Doc and exception
-      expect(wrapper.get('.website__header__main__item__link--doc').exists()).to
+      expect(wrapper.find('.website__header__main__item__link--doc').exists()).to
         .be.false;
-      expect(wrapper.get('.website__header__main__item--exception').exists()).to
+      expect(wrapper.find('.website__header__main__item--exception').exists()).to
         .be.false;
     });
 
@@ -75,7 +75,7 @@ describe('Website.vue', () => {
         website.host,
       );
       expect(
-        wrapper.findAllComponents('.website__methods__list__method').length,
+        wrapper.findAll('.website__methods__list__method').length,
       ).to.equal(website.tfa.length);
 
       // Exception and doc
