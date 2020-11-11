@@ -77,6 +77,8 @@ describe('WebsitesUpdater', function () {
   });
 
   describe('update', function () {
+    this.timeout(5000); 
+    
     afterEach(async function () {
       sinon.restore();
     });

@@ -43,7 +43,7 @@ jobs:
       - run: npm ci
       - name: Test coverage
         run: |
-          npm run nyc --reporter=lcov mocha && npm run codecov
+          npm run report-coverage
       - name: Upload to codecov
         run: |
           bash <(curl -s https://codecov.io/bash)
