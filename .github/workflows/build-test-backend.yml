@@ -21,7 +21,7 @@ jobs:
           node-version: 14.x
       - run: npm ci
       - run: npm run build --if-present
-      - name: Test server
+      - name: Test
         run: npm test
         continue-on-error: true
         env:
@@ -43,7 +43,7 @@ jobs:
       - run: npm ci
       - name: Test coverage
         run: |
-          nyc --reporter=lcov mocha && codecov
+          npm run nyc --reporter=lcov mocha && npm run codecov
       - name: Upload to codecov
         run: |
           bash <(curl -s https://codecov.io/bash)
