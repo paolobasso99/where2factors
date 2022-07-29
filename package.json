@@ -22,7 +22,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
     "helmet": "^4.1.1",
-    "mongoose": "^5.10.9",
+    "mongoose": "^6.4.6",
     "morgan": "^1.10.0",
     "psl": "^1.8.0",
     "v-tooltip": "^2.0.3",
