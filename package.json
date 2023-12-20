@@ -13,8 +13,8 @@
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov"
   },
   "dependencies": {
-    "axios": "^0.20.0",
-    "chai-http": "^4.3.0",
+    "axios": "^0.21.1",
+    "chai-http": "^4.4.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "debug": "^4.3.0",
